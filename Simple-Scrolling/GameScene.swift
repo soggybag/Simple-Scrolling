@@ -9,37 +9,55 @@
 import SpriteKit
 
 class GameScene: SKScene {
+    
+    var clouds: SKSpriteNode!
+    var clouds2: SKSpriteNode!
+    
+    var crystals: SKSpriteNode!
+    var crystals2: SKSpriteNode!
+    
+    var groundLeft: SKSpriteNode!
+    var groundRight: SKSpriteNode!
+    
+    
+    func scrollSprite(sprite: SKSpriteNode, speed: CGFloat) {
+        sprite.position.x -= speed
+        
+        if sprite.position.x < sprite.size.width / -2 {
+            sprite.position.x += sprite.size.width * 2
+        }
+    }
+    
+    
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
-        let myLabel = SKLabelNode(fontNamed:"Chalkduster")
-        myLabel.text = "Hello, World!"
-        myLabel.fontSize = 45
-        myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
         
-        self.addChild(myLabel)
+        clouds = self.childNodeWithName("clouds") as! SKSpriteNode
+        clouds2 = self.childNodeWithName("clouds2") as! SKSpriteNode
+        
+        crystals = self.childNodeWithName("crystals") as! SKSpriteNode
+        crystals2 = self.childNodeWithName("crystals2") as! SKSpriteNode
+        
+        groundLeft = self.childNodeWithName("groundRight") as! SKSpriteNode
+        groundRight = self.childNodeWithName("groundLeft") as! SKSpriteNode
+        
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-       /* Called when a touch begins */
+        /* Called when a touch begins */
         
-        for touch in touches {
-            let location = touch.locationInNode(self)
-            
-            let sprite = SKSpriteNode(imageNamed:"Spaceship")
-            
-            sprite.xScale = 0.5
-            sprite.yScale = 0.5
-            sprite.position = location
-            
-            let action = SKAction.rotateByAngle(CGFloat(M_PI), duration:1)
-            
-            sprite.runAction(SKAction.repeatActionForever(action))
-            
-            self.addChild(sprite)
-        }
     }
    
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
+        
+        scrollSprite(clouds, speed: 2)
+        scrollSprite(clouds2, speed: 2)
+        
+        scrollSprite(crystals, speed: 1)
+        scrollSprite(crystals2, speed: 1)
+        
+        scrollSprite(groundLeft, speed: 3)
+        scrollSprite(groundRight, speed: 3)
     }
 }
